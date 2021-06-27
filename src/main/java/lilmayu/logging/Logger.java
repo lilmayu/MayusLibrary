@@ -8,6 +8,13 @@ import lilmayu.utils.ReflectionUtils;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.jws.WebService;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +27,11 @@ public class Logger {
     private static final @Getter List<LogListener> logListeners = new ArrayList<>();
 
     // Settings
+    private static @Getter @Setter boolean saveLogsToList = false;
+    private static @Getter @Setter boolean saveLogsToFile = false;
+    private static @Getter @Setter String fileName = "log.txt";
     private static @Getter @Setter String timePattern = "HH:mm:ss.sss";
+    private static @Getter @Setter String format = "[{time}][{method}/{thread}][{type}]: {text}";
     private static @Getter @Setter BaseColoring coloring = new ConsoleColoring();
 
     // Default values
@@ -28,7 +39,10 @@ public class Logger {
         System.out.println(log.getFormattedLog());
     };
 
-    // Main
+    // Runtime
+    private static final @Getter List<Log> logs = new ArrayList<>();
+
+    // = Main
 
     public static void info(String text) {
         processLog(new InfoLogType(), text);
@@ -63,6 +77,18 @@ public class Logger {
         beforeLogListeners.forEach(beforeLogListener -> {
             beforeLogListener.getConsumer().accept(log);
         });
+
+        if (saveLogsToList) {
+            logs.add(log);
+        }
+
+        if (saveLogsToFile) {
+            try {
+                Files.write(Paths.get(fileName), (log.getFormattedLogNoColors() + "\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND, StandardOpenOption.CREATE);
+            } catch (IOException exception) {
+                throw new RuntimeException("Error occurred while writing log to file (" + fileName + ")!", exception);
+            }
+        }
 
         printLogic.accept(log);
         logListeners.forEach(logListener -> logListener.getConsumer().accept(log));

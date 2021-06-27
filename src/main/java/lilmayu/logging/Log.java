@@ -13,7 +13,6 @@ public class Log {
 
     // Base
     private @Getter @Setter BaseLogType baseLogType;
-    private @Getter @Setter String additionalFormatting;
     private @Getter @Setter String text;
 
     // Additional
@@ -37,33 +36,37 @@ public class Log {
 
     public String getFormattedLog() {
         ColoringString coloringString = Logger.getColoring().getColoringForLogType(baseLogType);
-        String formattedLog = "";
+        String formattedLog = getFormattedLogNoColors();
 
         if (coloringString != null) {
-            formattedLog += coloringString.getColor();
+            formattedLog = coloringString.getColor() + formattedLog + coloringString.getResetColor();
         }
 
+        return formattedLog;
+    }
+
+    public String getFormattedLogNoColors() {
+        String formattedLog = Logger.getFormat();
+
         if (date != null) {
-            formattedLog += "[" + new SimpleDateFormat(Logger.getTimePattern()).format(date) + "]";
+            formattedLog = formattedLog.replace("{time}",  new SimpleDateFormat(Logger.getTimePattern()).format(date));
+        } else {
+            formattedLog = formattedLog.replace("{time}", "");
         }
 
         if (methodName != null && threadName != null) {
-            formattedLog += "[" + methodName + "/" + threadName + "]";
+            formattedLog = formattedLog.replace("{method}", methodName).replace("{thread}", threadName);
+        } else {
+            formattedLog = formattedLog.replace("{method}", "").replace("{thread}", "");
         }
 
         if (baseLogType != null) {
-            formattedLog += "[" + baseLogType.getName() + "]";
+            formattedLog = formattedLog.replace("{type}", baseLogType.getName());
+        } else {
+            formattedLog = formattedLog.replace("{type}", "");
         }
 
-        if (additionalFormatting != null) {
-            formattedLog += additionalFormatting;
-        }
-
-        formattedLog += ": " + text;
-
-        if (coloringString != null) {
-            formattedLog += coloringString.getResetColor();
-        }
+        formattedLog = formattedLog.replace("{text}", text);
 
         return formattedLog;
     }
