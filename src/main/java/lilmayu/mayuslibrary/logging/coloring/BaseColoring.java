@@ -1,6 +1,6 @@
-package lilmayu.logging.coloring;
+package lilmayu.mayuslibrary.logging.coloring;
 
-import lilmayu.logging.types.BaseLogType;
+import lilmayu.mayuslibrary.logging.types.BaseLogType;
 import lombok.Getter;
 
 import java.util.ArrayList;

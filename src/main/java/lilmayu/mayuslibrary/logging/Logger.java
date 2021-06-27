@@ -1,10 +1,10 @@
-package lilmayu.logging;
+package lilmayu.mayuslibrary.logging;
 
-import lilmayu.logging.coloring.BaseColoring;
-import lilmayu.logging.coloring.ColoringString;
-import lilmayu.logging.coloring.ConsoleColoring;
-import lilmayu.logging.types.*;
-import lilmayu.utils.ReflectionUtils;
+import lilmayu.mayuslibrary.logging.coloring.BaseColoring;
+import lilmayu.mayuslibrary.logging.coloring.ColoringString;
+import lilmayu.mayuslibrary.logging.coloring.ConsoleColoring;
+import lilmayu.mayuslibrary.logging.types.*;
+import lilmayu.mayuslibrary.utils.ReflectionUtils;
 import lombok.Getter;
 import lombok.Setter;
 

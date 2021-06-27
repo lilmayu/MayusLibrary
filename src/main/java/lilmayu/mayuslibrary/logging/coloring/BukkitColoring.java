@@ -1,6 +1,6 @@
-package lilmayu.logging.coloring;
+package lilmayu.mayuslibrary.logging.coloring;
 
-import lilmayu.logging.types.*;
+import lilmayu.mayuslibrary.logging.types.*;
 
 public class BukkitColoring extends BaseColoring {
 

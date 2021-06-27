@@ -1,8 +1,8 @@
-package lilmayu.logging.coloring;
+package lilmayu.mayuslibrary.logging.coloring;
 
-import lilmayu.console.colors.Color;
-import lilmayu.console.colors.Colors;
-import lilmayu.logging.types.*;
+import lilmayu.mayuslibrary.console.colors.Color;
+import lilmayu.mayuslibrary.console.colors.Colors;
+import lilmayu.mayuslibrary.logging.types.*;
 
 public class ConsoleColoring extends BaseColoring {
 
