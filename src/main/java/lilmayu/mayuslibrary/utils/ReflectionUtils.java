@@ -1,4 +1,4 @@
-package lilmayu.utils;
+package lilmayu.mayuslibrary.utils;
 
 import java.lang.reflect.Method;
 

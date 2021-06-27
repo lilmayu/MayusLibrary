@@ -1,4 +1,4 @@
-package lilmayu.logging.types;
+package lilmayu.mayuslibrary.logging.types;
 
 public abstract class BaseLogType {
 

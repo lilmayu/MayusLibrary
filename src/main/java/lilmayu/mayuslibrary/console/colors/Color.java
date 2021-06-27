@@ -1,4 +1,4 @@
-package lilmayu.console.colors;
+package lilmayu.mayuslibrary.console.colors;
 
 import lombok.Getter;
 

@@ -1,4 +1,4 @@
-package lilmayu.logging;
+package lilmayu.mayuslibrary.logging;
 
 public enum LogType {
     INFO,

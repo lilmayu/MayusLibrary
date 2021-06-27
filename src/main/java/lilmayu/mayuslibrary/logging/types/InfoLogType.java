@@ -1,4 +1,4 @@
-package lilmayu.logging.types;
+package lilmayu.mayuslibrary.logging.types;
 
 public class InfoLogType extends BaseLogType {
 

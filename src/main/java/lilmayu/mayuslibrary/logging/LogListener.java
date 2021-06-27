@@ -1,4 +1,4 @@
-package lilmayu.logging;
+package lilmayu.mayuslibrary.logging;
 
 import lombok.Getter;
 
