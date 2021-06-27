@@ -1,6 +1,5 @@
 package lilmayu.logging;
 
-import lilmayu.logging.coloring.BaseColoring;
 import lilmayu.logging.coloring.ColoringString;
 import lilmayu.logging.types.BaseLogType;
 import lombok.Getter;
@@ -49,7 +48,7 @@ public class Log {
         String formattedLog = Logger.getFormat();
 
         if (date != null) {
-            formattedLog = formattedLog.replace("{time}",  new SimpleDateFormat(Logger.getTimePattern()).format(date));
+            formattedLog = formattedLog.replace("{time}", new SimpleDateFormat(Logger.getTimePattern()).format(date));
         } else {
             formattedLog = formattedLog.replace("{time}", "");
         }

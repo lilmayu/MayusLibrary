@@ -5,5 +5,5 @@ public enum LogType {
     WARNING,
     ERROR,
     DEBUG,
-    TRACE;
+    TRACE
 }

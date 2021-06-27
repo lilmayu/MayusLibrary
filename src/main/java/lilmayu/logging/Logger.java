@@ -8,8 +8,6 @@ import lilmayu.utils.ReflectionUtils;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.jws.WebService;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -26,6 +24,9 @@ public class Logger {
     private static final @Getter List<LogListener> beforeLogListeners = new ArrayList<>();
     private static final @Getter List<LogListener> logListeners = new ArrayList<>();
 
+    // Runtime
+    private static final @Getter List<Log> logs = new ArrayList<>();
+
     // Settings
     private static @Getter @Setter boolean saveLogsToList = false;
     private static @Getter @Setter boolean saveLogsToFile = false;
@@ -38,9 +39,6 @@ public class Logger {
     public static Consumer<Log> printLogic = log -> {
         System.out.println(log.getFormattedLog());
     };
-
-    // Runtime
-    private static final @Getter List<Log> logs = new ArrayList<>();
 
     // = Main
 
