@@ -14,6 +14,6 @@ public class ExceptionReporter extends BaseListenerClass<ExceptionReport> implem
 
     @Override
     public void uncaughtException(Thread thread, Throwable throwable) {
-        getInstance().process(new ExceptionReport(thread, throwable));
+        process(new ExceptionReport(thread, throwable));
     }
 }
