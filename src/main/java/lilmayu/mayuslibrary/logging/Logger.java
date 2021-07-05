@@ -1,5 +1,6 @@
 package lilmayu.mayuslibrary.logging;
 
+import lilmayu.mayuslibrary.exceptionreporting.ExceptionReporter;
 import lilmayu.mayuslibrary.logging.coloring.BaseColoring;
 import lilmayu.mayuslibrary.logging.coloring.ColoringString;
 import lilmayu.mayuslibrary.logging.coloring.ConsoleColoring;
