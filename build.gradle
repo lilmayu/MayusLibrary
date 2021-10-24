@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group 'lilmayu'
+group 'dev.mayuna'
 version '1.0.1'
 
 repositories {
