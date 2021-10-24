@@ -19,6 +19,10 @@ public abstract class BaseListener<T> {
         this.consumer = consumer;
     }
 
+    public void process(T object) {
+        consumer.accept(object);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -30,7 +34,7 @@ public abstract class BaseListener<T> {
         if (name == null)
             return false;
 
-        BaseListener<T> that = (BaseListener<T>) o;
+        BaseListener that = (BaseListener) o;
         return name.equals(that.name);
     }
 

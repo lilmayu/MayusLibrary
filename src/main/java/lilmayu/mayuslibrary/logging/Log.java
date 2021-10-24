@@ -7,6 +7,10 @@ import lombok.Setter;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class Log {
 
@@ -16,13 +20,22 @@ public class Log {
 
     // Additional
     private @Getter @Setter Date date;
+    private @Getter @Setter String className;
     private @Getter @Setter String methodName;
     private @Getter @Setter String threadName;
+
+    // Static
+    private static @Getter @Setter Consumer<String> formattedLogBeforeColoring = string -> {};
+    private static @Getter @Setter BiFunction<Log, String, String> customFormatConsumer = (log, string) -> string;
 
     public Log(String text) {
         this.text = text;
     }
 
+    /**
+     * @deprecated Deprecated in favor for constructor with className
+     */
+    @Deprecated
     public Log(BaseLogType baseLogType, String text, Date date, String methodName, String threadName) {
         this.baseLogType = baseLogType;
         this.text = text;
@@ -31,11 +44,22 @@ public class Log {
         this.threadName = threadName;
     }
 
+    public Log(BaseLogType baseLogType, String text, Date date, String className, String methodName, String threadName) {
+        this.baseLogType = baseLogType;
+        this.text = text;
+        this.date = date;
+        this.methodName = methodName;
+        this.threadName = threadName;
+        this.className = className;
+    }
+
     // Java
 
     public String getFormattedLog() {
         ColoringString coloringString = Logger.getColoring().getColoringForLogType(baseLogType);
         String formattedLog = getFormattedLogNoColors();
+
+        formattedLogBeforeColoring.accept(formattedLog);
 
         if (coloringString != null) {
             formattedLog = coloringString.getColor() + formattedLog + coloringString.getResetColor();
@@ -65,7 +89,16 @@ public class Log {
             formattedLog = formattedLog.replace("{type}", "");
         }
 
+        LogPrefix logPrefix = Logger.getLogPrefixByClassName(className);
+        if (className != null && logPrefix != null) {
+            formattedLog = formattedLog.replace("{prefix}", logPrefix.getPrefix());
+        } else {
+            formattedLog = formattedLog.replace("{prefix}", "");
+        }
+
         formattedLog = formattedLog.replace("{text}", text);
+
+        formattedLog = customFormatConsumer.apply(this, formattedLog);
 
         return formattedLog;
     }

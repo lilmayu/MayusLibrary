@@ -1,27 +1,25 @@
 package lilmayu.mayuslibrary.utils;
 
+import java.util.Arrays;
+
 public class ArrayUtils {
 
     public static Object getLast(Object[] array) {
-        if (array.length == 0)
+        if (array == null || array.length == 0)
             return null;
+
         return array[array.length - 1];
     }
 
+    @Deprecated
     public static String makePrettyList(Object[] array) {
-        if (array.length == 0)
-            return "";
-        String fullString = "";
-        for (Object object : array) {
-            fullString += object.toString();
-            if (!object.equals(getLast(array))) {
-                fullString += ", ";
-            }
-        }
-        return fullString;
+        return Arrays.toString(array);
     }
 
     public static String makeVerticalList(Object[] array) {
+        if (array == null || array.length == 0)
+            return "";
+
         String string = "";
 
         for (Object object : array) {

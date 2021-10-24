@@ -1,6 +1,5 @@
 package lilmayu.mayuslibrary.logging;
 
-import lilmayu.mayuslibrary.exceptionreporting.ExceptionReporter;
 import lilmayu.mayuslibrary.logging.coloring.BaseColoring;
 import lilmayu.mayuslibrary.logging.coloring.ColoringString;
 import lilmayu.mayuslibrary.logging.coloring.ConsoleColoring;
@@ -27,19 +26,22 @@ public class Logger {
 
     // Runtime
     private static final @Getter List<Log> logs = new ArrayList<>();
+    private static final @Getter List<LogPrefix> prefixes = new ArrayList<>();
 
     // Settings
     private static @Getter @Setter boolean saveLogsToList = false;
     private static @Getter @Setter boolean saveLogsToFile = false;
     private static @Getter @Setter String fileName = "log.txt";
     private static @Getter @Setter String timePattern = "HH:mm:ss.sss";
-    private static @Getter @Setter String format = "[{time}][{method}/{thread}][{type}]: {text}";
+    private static @Getter @Setter String format = "[{time}][{method}/{thread}][{type}]:{prefix} {text}";
     private static @Getter @Setter BaseColoring coloring = new ConsoleColoring();
 
     // Default values
     public static Consumer<Log> printLogic = log -> {
         System.out.println(log.getFormattedLog());
     };
+
+    public static int reflectionDepth = 4;
 
     // = Main
 
@@ -68,8 +70,10 @@ public class Logger {
     }
 
     public static void processLog(BaseLogType baseLogType, String text) {
-        String methodName = ReflectionUtils.getMethodNameFromStack(4);
-        processLog(new Log(baseLogType, text, new Date(System.currentTimeMillis()), methodName, Thread.currentThread().getName()));
+        String methodName = ReflectionUtils.getMethodNameFromStack(reflectionDepth);
+        String className = ReflectionUtils.getClassNameFromStack(reflectionDepth);
+        processLog(new Log(baseLogType, text, new Date(System.currentTimeMillis()), className, methodName, Thread.currentThread()
+                .getName()));
     }
 
     public static void processLog(Log log) {
@@ -127,5 +131,21 @@ public class Logger {
 
     public static void addColoringString(ColoringString coloringString) {
         getColoring().addColoring(coloringString);
+    }
+
+    // - Prefixes
+
+    public static void addLogPrefix(LogPrefix logPrefix) {
+        prefixes.add(logPrefix);
+    }
+
+    public static LogPrefix getLogPrefixByClassName(String className) {
+        for (LogPrefix logPrefix : prefixes) {
+            if (logPrefix.getClazz().getName().equalsIgnoreCase(className)) {
+                return logPrefix;
+            }
+        }
+
+        return null;
     }
 }

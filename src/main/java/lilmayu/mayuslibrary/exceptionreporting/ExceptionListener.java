@@ -15,8 +15,17 @@ public class ExceptionListener extends BaseListener<ExceptionReport> {
         this.packageName = packageName;
     }
 
-    public void processException(Throwable throwable, ExceptionReport exceptionReport) {
-        for (StackTraceElement element : throwable.getStackTrace()) {
+    @Override
+    public void process(ExceptionReport exceptionReport) {
+        try {
+            processException(exceptionReport);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+    }
+
+    private void processException(ExceptionReport exceptionReport) {
+        for (StackTraceElement element : exceptionReport.getThrowable().getStackTrace()) {
             if (packageName == null || element.getClassName().contains(packageName)) {
                 getConsumer().accept(exceptionReport);
                 break;
