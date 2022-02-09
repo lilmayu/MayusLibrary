@@ -1,4 +1,4 @@
-package dev.mayuna.mayuslibrary.utils.objects;
+package dev.mayuna.mayuslibrary.util.objects;
 
 import lombok.Getter;
 

@@ -1,7 +1,7 @@
 package dev.mayuna.mayuslibrary.logging.coloring;
 
-import dev.mayuna.mayuslibrary.console.colors.Color;
-import dev.mayuna.mayuslibrary.console.colors.Colors;
+import dev.mayuna.mayuslibrary.graphics.console.colors.Color;
+import dev.mayuna.mayuslibrary.graphics.console.colors.Colors;
 import dev.mayuna.mayuslibrary.logging.types.*;
 
 public class ConsoleColoring extends BaseColoring {

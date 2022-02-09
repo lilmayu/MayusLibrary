@@ -1,10 +1,10 @@
 package dev.mayuna.mayuslibrary.exceptionreporting;
 
-import dev.mayuna.mayuslibrary.exceptions.ExceptionInExceptionReporterProcessing;
-import dev.mayuna.mayuslibrary.base.BaseListenerClass;
+import dev.mayuna.mayuslibrary.exceptionreporting.exceptions.ExceptionInExceptionReporterProcessing;
+import dev.mayuna.mayuslibrary.concurrent.event.EventBus;
 import lombok.Getter;
 
-public class ExceptionReporter extends BaseListenerClass<ExceptionReport> implements Thread.UncaughtExceptionHandler {
+public class ExceptionReporter extends EventBus<ExceptionReport> implements Thread.UncaughtExceptionHandler {
 
     private static final @Getter ExceptionReporter instance = new ExceptionReporter();
 
@@ -21,7 +21,7 @@ public class ExceptionReporter extends BaseListenerClass<ExceptionReport> implem
         }
 
         try {
-            process(new ExceptionReport(thread, throwable));
+            callAllListeners(new ExceptionReport(thread, throwable));
         } catch (Throwable exception) {
             throw new ExceptionInExceptionReporterProcessing("Another exception occurred while processing uncaught exception in ExceptionReporter!", throwable);
         }

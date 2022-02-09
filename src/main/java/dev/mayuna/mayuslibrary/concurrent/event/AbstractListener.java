@@ -1,21 +1,22 @@
-package dev.mayuna.mayuslibrary.base;
+package dev.mayuna.mayuslibrary.concurrent.event;
 
 import lombok.Getter;
 
+import java.util.UUID;
 import java.util.function.Consumer;
 
-public abstract class BaseListener<T> {
+public abstract class AbstractListener<T> {
 
     private final @Getter String name;
     private final @Getter Consumer<T> consumer;
 
-    public BaseListener(String name, Consumer<T> consumer) {
+    public AbstractListener(String name, Consumer<T> consumer) {
         this.name = name;
         this.consumer = consumer;
     }
 
-    public BaseListener(Consumer<T> consumer) {
-        this.name = null;
+    public AbstractListener(Consumer<T> consumer) {
+        this.name = UUID.randomUUID().toString();
         this.consumer = consumer;
     }
 
@@ -28,13 +29,13 @@ public abstract class BaseListener<T> {
         if (this == o)
             return true;
 
-        if (!(o instanceof BaseListener))
+        if (!(o instanceof AbstractListener))
             return false;
 
         if (name == null)
             return false;
 
-        BaseListener that = (BaseListener) o;
+        AbstractListener that = (AbstractListener) o;
         return name.equals(that.name);
     }
 

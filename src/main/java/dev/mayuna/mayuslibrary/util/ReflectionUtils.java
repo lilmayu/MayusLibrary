@@ -1,4 +1,4 @@
-package dev.mayuna.mayuslibrary.utils;
+package dev.mayuna.mayuslibrary.util;
 
 import java.lang.reflect.Method;
 

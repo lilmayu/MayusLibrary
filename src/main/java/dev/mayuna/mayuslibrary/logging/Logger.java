@@ -1,7 +1,7 @@
 package dev.mayuna.mayuslibrary.logging;
 
 import dev.mayuna.mayuslibrary.logging.types.*;
-import dev.mayuna.mayuslibrary.utils.ReflectionUtils;
+import dev.mayuna.mayuslibrary.util.ReflectionUtils;
 import dev.mayuna.mayuslibrary.logging.coloring.BaseColoring;
 import dev.mayuna.mayuslibrary.logging.coloring.ColoringString;
 import dev.mayuna.mayuslibrary.logging.coloring.ConsoleColoring;

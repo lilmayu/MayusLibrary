@@ -1,4 +1,4 @@
-package dev.mayuna.mayuslibrary.console.colors;
+package dev.mayuna.mayuslibrary.graphics.console.colors;
 
 import lombok.Getter;
 
@@ -21,8 +21,7 @@ public enum Colors {
     WHITE(97),
     RESET(0);
 
-    private @Getter
-    int colorNumber = 0;
+    private @Getter int colorNumber = 0;
 
     Colors(int i) {
         this.colorNumber = i;
