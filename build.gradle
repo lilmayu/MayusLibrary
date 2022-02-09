@@ -1,9 +1,15 @@
 plugins {
     id 'java'
+    id 'io.codearte.nexus-staging' version '0.11.0'
 }
 
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
 group 'dev.mayuna'
-version '1.0.1'
+archivesBaseName = 'mayus-library'
+version '1.0.2'
 
 repositories {
     mavenCentral()
@@ -17,4 +23,91 @@ dependencies {
 task compile(type: Jar) {
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "mayus-jda-utilities"
+            url = uri("https://maven.pkg.github.com/lilmayu/MayusLibrary")
+            credentials {
+                username = GPR_USER_PERSONAL
+                password = GPR_TOKEN_PERSONAL
+            }
+        }
+    }
+
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
+        }
+    }
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'mayus-library'
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description 'Generic Java Library with Logger and other things which I use in my projects'
+                url 'https://mayuna.dev/'
+
+                scm {
+                    connection 'scm:https://github.com/lilmayu/MayusLibrary'
+                    developerConnection 'scm:git:https://github.com/lilmayu/MayusLibrary.git'
+                    url 'https://github.com/lilmayu/MayusLibrary'
+                }
+
+                licenses {
+                    license {
+                        name 'GNU Lesser General Public License v3.0'
+                        url 'https://www.gnu.org/licenses/lgpl-3.0.en.html'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'mayuna'
+                        name 'Marek Lof'
+                        email 'uwulilmayu@gmail.com'
+                    }
+                }
+            }
+        }
+    }
+}
+
+nexusStaging {
+    packageGroup = "dev.mayuna" //optional if packageGroup == project.getGroup()
+}
+
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
 }
