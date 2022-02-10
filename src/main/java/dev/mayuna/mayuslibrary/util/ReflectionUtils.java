@@ -4,22 +4,58 @@ import java.lang.reflect.Method;
 
 public class ReflectionUtils {
 
-    public static String getMethodNameFromStack(int num) {
-        return Thread.currentThread().getStackTrace()[num].getMethodName();
+    /**
+     * Retrieves method name from stack at specified index
+     * @param index Index
+     * @return Method name, if no exception occurred, otherwise null
+     */
+    public static String getMethodNameFromStack(int index) {
+        try {
+            return Thread.currentThread().getStackTrace()[index].getMethodName();
+        } catch (Exception ignored) {
+            return null;
+        }
     }
 
-    public static String getClassNameFromStack(int num) {
-        return Thread.currentThread().getStackTrace()[num].getClassName();
+    /**
+     * Retrieves class name from stack at specified index
+     * @param index Index
+     * @return Class name, if no exception occurred, otherwise null
+     */
+    public static String getClassNameFromStack(int index) {
+        try {
+            return Thread.currentThread().getStackTrace()[index].getClassName();
+        } catch (Exception ignored) {
+            return null;
+        }
     }
 
-    public static Method getMethodFromStack(int num) throws ClassNotFoundException, NoSuchMethodException {
-        String methodName = getMethodNameFromStack(num + 1);
-        Class<?> clazz = getClassFromStack(num + 2);
-        return clazz.getMethod(methodName);
+    /**
+     * Retrieves {@link Method} object from stack at specified index
+     * @param index Index
+     * @return {@link Method} object, if no exception occurred, otherwise null
+     */
+    public static Method getMethodFromStack(int index) {
+        try {
+            String methodName = getMethodNameFromStack(index + 1);
+            Class<?> clazz = getClassFromStack(index + 2);
+            return clazz.getMethod(methodName);
+        } catch (Exception ignored) {
+            return null;
+        }
     }
 
-    public static Class<?> getClassFromStack(int num) throws ClassNotFoundException {
-        String className = getClassNameFromStack(num + 1);
-        return Class.forName(className);
+    /**
+     * Retrieves {@link Class} object from stack at specified index
+     * @param index Index
+     * @return {@link Class} object, if no exception occurred, otherwise null
+     */
+    public static Class<?> getClassFromStack(int index) {
+        try {
+            String className = getClassNameFromStack(index + 1);
+            return Class.forName(className);
+        } catch (Exception ignored) {
+            return null;
+        }
     }
 }
