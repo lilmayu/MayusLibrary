@@ -16,5 +16,29 @@
 - Author: [Mayuna](https://mayuna.dev)
 - Download: [GitHub Releases](https://github.com/lilmayu/MayusLibrary/releases)
 
+## Installation
+### Maven
+```xml
+<dependency>
+    <groupId>dev.mayuna</groupId>
+    <artifactId>mayus-library</artifactId>
+    <version>VERSION</version>
+</dependency>
+```
+### Gradle
+```gradle
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Change 'implementation' to 'compile' in old Gradle versions
+    implementation 'dev.mayuna:mayus-library:VERSION'
+}
+```
+- Replace `VERSION` with your desired version. TIP: Remove "v" before version number
+- For version number see latest [Maven Repository](https://mvnrepository.com/artifact/dev.mayuna/mayus-library) release (should be same with Github Release though)
+- You can also use [GitHub Releases](https://github.com/lilmayu/MayusLibrary/releases)
+
 ## Documentation
 - Soon:tm:
