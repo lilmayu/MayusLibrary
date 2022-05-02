@@ -7,10 +7,10 @@ public class StringUtils {
     /**
      * Capitalizes letters by specified settings in string<br>
      * Examples:<br>
-     * (string, true, true, true) - "YOU CAN (NOT) REDO" -> "You Can (not) Redo"<br>
-     * (string, false, true, true) - "YOU CAN (NOT) REDO" -> "You Can (Not) Redo"<br>
-     * (string, false, false, true) - "YOU CAN (NOT) REDO" -> "You can (not) redo"<br>
-     * (string, true, true, false) - "YOU CAN (NOT) REDO" -> "YOU CAN (NOT) REDO"
+     * (string, true, true, true) - "YOU CAN (NOT) REDO" to "You Can (not) Redo"<br>
+     * (string, false, true, true) - "YOU CAN (NOT) REDO" to "You Can (Not) Redo"<br>
+     * (string, false, false, true) - "YOU CAN (NOT) REDO" to "You can (not) redo"<br>
+     * (string, true, true, false) - "YOU CAN (NOT) REDO" to "YOU CAN (NOT) REDO"
      * @param string String to capitalize letters in
      * @param skipNonAlphabeticCharacters Determines if non-alphabetic characters should be skipped and ignored
      * @param capitalizeEvery Determines if all letters after space should be capitalized

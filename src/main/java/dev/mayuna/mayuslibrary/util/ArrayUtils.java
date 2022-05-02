@@ -15,6 +15,22 @@ public class ArrayUtils {
     }
 
     /**
+     * Checks whenever the supplied object is the last object in supplied array
+     * @param object Object
+     * @param array Array
+     * @return True if supplied object is last in supplied array, false otherwise; false can be also returned if the array is null or empty
+     */
+    public static boolean isLast(Object object, Object[] array) {
+        Object lastObject = getLast(array);
+
+        if (lastObject == null) {
+            return false;
+        }
+
+        return lastObject.equals(object);
+    }
+
+    /**
      * Formats array into vertical list with specified delimiter <br>
      * Example:<br>
      * Supplied array: [0, 1, 2, 3, 4]<br>
