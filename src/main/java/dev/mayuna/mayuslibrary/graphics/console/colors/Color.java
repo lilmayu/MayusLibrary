@@ -1,4 +1,4 @@
-package dev.mayuna.mayuslibrary.console.colors;
+package dev.mayuna.mayuslibrary.graphics.console.colors;
 
 import lombok.Getter;
 

@@ -1,11 +1,11 @@
 package dev.mayuna.mayuslibrary.exceptionreporting;
 
-import dev.mayuna.mayuslibrary.base.BaseListener;
+import dev.mayuna.mayuslibrary.concurrent.event.AbstractListener;
 import lombok.Getter;
 
 import java.util.function.Consumer;
 
-public class ExceptionListener extends BaseListener<ExceptionReport> {
+public class ExceptionListener extends AbstractListener<ExceptionReport> {
 
     private final @Getter String packageName;
 

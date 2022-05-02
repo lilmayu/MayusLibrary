@@ -9,7 +9,7 @@ apply plugin: 'signing'
 
 group 'dev.mayuna'
 archivesBaseName = 'mayus-library'
-version '1.0.2'
+version '2.0'
 
 repositories {
     mavenCentral()
@@ -23,25 +23,6 @@ dependencies {
 task compile(type: Jar) {
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
-}
-
-publishing {
-    repositories {
-        maven {
-            name = "mayus-jda-utilities"
-            url = uri("https://maven.pkg.github.com/lilmayu/MayusLibrary")
-            credentials {
-                username = GPR_USER_PERSONAL
-                password = GPR_TOKEN_PERSONAL
-            }
-        }
-    }
-
-    publications {
-        gpr(MavenPublication) {
-            from(components.java)
-        }
-    }
 }
 
 uploadArchives {
