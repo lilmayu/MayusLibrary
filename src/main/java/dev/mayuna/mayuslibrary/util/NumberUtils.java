@@ -2,11 +2,19 @@ package dev.mayuna.mayuslibrary.util;
 
 import java.text.NumberFormat;
 
-public class NumberUtils {
+/**
+ * Some number utils. Allows you to easily parse some numbers without the need to catch {@link NumberFormatException}
+ */
+public final class NumberUtils {
+
+    private NumberUtils() {
+    }
 
     /**
      * Checks if supplied string is parsable into {@link Number} object
+     *
      * @param string String which you want to test
+     *
      * @return Returns true if is parsable, false otherwise.
      */
     public static boolean isNumber(String string) {
@@ -15,7 +23,9 @@ public class NumberUtils {
 
     /**
      * Tries to parse supplied string as number.
+     *
      * @param string String which you want to parse
+     *
      * @return Returns {@link Number} object if parsable, null otherwise.
      */
     public static Number parseNumber(String string) {
@@ -28,7 +38,9 @@ public class NumberUtils {
 
     /**
      * Checks if supplied string is parsable into {@link Integer} object
+     *
      * @param string String which you want to test
+     *
      * @return Returns true if is parsable, false otherwise.
      */
     public static boolean isInteger(String string) {
@@ -37,7 +49,9 @@ public class NumberUtils {
 
     /**
      * Tries to parse supplied string as {@link Integer} object
+     *
      * @param string String which you want to parse
+     *
      * @return Returns {@link Integer} object if parsable, null otherwise.
      */
     public static Integer parseInteger(String string) {
@@ -50,7 +64,9 @@ public class NumberUtils {
 
     /**
      * Checks if supplied string is parsable into {@link Long} object
+     *
      * @param string String which you want to test
+     *
      * @return Returns true if is parsable, false otherwise.
      */
     public static boolean isLong(String string) {
@@ -59,7 +75,9 @@ public class NumberUtils {
 
     /**
      * Tries to parse supplied string as {@link Long} object
+     *
      * @param string String which you want to parse
+     *
      * @return Returns {@link Long} object if parsable, null otherwise.
      */
     public static Long parseLong(String string) {
@@ -72,7 +90,9 @@ public class NumberUtils {
 
     /**
      * Checks if supplied string is parsable into {@link Float} object
+     *
      * @param string String which you want to test
+     *
      * @return Returns true if is parsable, false otherwise.
      */
     public static boolean isFloat(String string) {
@@ -81,7 +101,9 @@ public class NumberUtils {
 
     /**
      * Tries to parse supplied string as {@link Float} object
+     *
      * @param string String which you want to parse
+     *
      * @return Returns {@link Float} object if parsable, null otherwise.
      */
     public static Float parseFloat(String string) {
@@ -94,7 +116,9 @@ public class NumberUtils {
 
     /**
      * Checks if supplied string is parsable into {@link Double} object
+     *
      * @param string String which you want to test
+     *
      * @return Returns true if is parsable, false otherwise.
      */
     public static boolean isDouble(String string) {
@@ -103,7 +127,9 @@ public class NumberUtils {
 
     /**
      * Tries to parse supplied string as {@link Double} object
+     *
      * @param string String which you want to parse
+     *
      * @return Returns {@link Double} object if parsable, null otherwise.
      */
     public static Double parseDouble(String string) {
@@ -116,7 +142,9 @@ public class NumberUtils {
 
     /**
      * Checks if supplied string is parsable into {@link Short} object
+     *
      * @param string String which you want to test
+     *
      * @return Returns true if is parsable, false otherwise.
      */
     public static boolean isShort(String string) {
@@ -125,7 +153,9 @@ public class NumberUtils {
 
     /**
      * Tries to parse supplied string as {@link Short} object
+     *
      * @param string String which you want to parse
+     *
      * @return Returns {@link Short} object if parsable, null otherwise.
      */
     public static Short parseShort(String string) {
@@ -138,7 +168,9 @@ public class NumberUtils {
 
     /**
      * Checks if supplied string is parsable into {@link Byte} object
+     *
      * @param string String which you want to test
+     *
      * @return Returns true if is parsable, false otherwise.
      */
     public static boolean isByte(String string) {
@@ -147,7 +179,9 @@ public class NumberUtils {
 
     /**
      * Tries to parse supplied string as {@link Byte} object
+     *
      * @param string String which you want to parse
+     *
      * @return Returns {@link Byte} object if parsable, null otherwise.
      */
     public static Byte parseByte(String string) {

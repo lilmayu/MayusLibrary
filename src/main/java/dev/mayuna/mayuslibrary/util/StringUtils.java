@@ -2,80 +2,106 @@ package dev.mayuna.mayuslibrary.util;
 
 import lombok.NonNull;
 
-public class StringUtils {
+/**
+ * Some string utils
+ */
+public final class StringUtils {
+
+    private StringUtils() {
+    }
 
     /**
-     * Capitalizes letters by specified settings in string<br>
-     * Examples:<br>
-     * (string, true, true, true) - "YOU CAN (NOT) REDO" to "You Can (not) Redo"<br>
-     * (string, false, true, true) - "YOU CAN (NOT) REDO" to "You Can (Not) Redo"<br>
-     * (string, false, false, true) - "YOU CAN (NOT) REDO" to "You can (not) redo"<br>
-     * (string, true, true, false) - "YOU CAN (NOT) REDO" to "YOU CAN (NOT) REDO"
-     * @param string String to capitalize letters in
+     * Capitalizes letters by specified settings in specified string<br>
+     *
+     * @param string                      String to capitalize letters in
+     * @param stringCapitalizeStrategy    String capitalize strategy
      * @param skipNonAlphabeticCharacters Determines if non-alphabetic characters should be skipped and ignored
-     * @param capitalizeEvery Determines if all letters after space should be capitalized
-     * @param normalize Formats string to lower case before capitalization
+     *
      * @return Capitalized string
      */
-    public static String capitalizeString(@NonNull String string, boolean skipNonAlphabeticCharacters, boolean capitalizeEvery, boolean normalize) {
-        if (normalize) {
-            string = string.toLowerCase();
+    public static String capitalizeString(@NonNull String string, @NonNull StringCapitalizeStrategy stringCapitalizeStrategy, boolean skipNonAlphabeticCharacters) {
+        if (string.isEmpty()) {
+            return string;
         }
 
-        char[] charArray = string.toCharArray();
+        string = string.toLowerCase();
 
-        for (int index = 0; index < charArray.length; index++) {
-            boolean shouldCapitalize = false;
+        // First letter only
+        if (stringCapitalizeStrategy == StringCapitalizeStrategy.FIRST_LETTER_ONLY) {
+            int letterIndex = -1;
 
-            if (index == 0) {
-                shouldCapitalize = true;
-            } else {
-                if (charArray[index - 1] == ' ') {
-                    shouldCapitalize = true;
-                }
-            }
+            if (skipNonAlphabeticCharacters) {
+                for (int i = 0; i < string.length(); i++) {
+                    char ch = string.charAt(i);
 
-            if (shouldCapitalize) {
-                if (!skipNonAlphabeticCharacters || Character.isAlphabetic(charArray[index])) {
-                    setCharacter(string, Character.toUpperCase(charArray[index]), index);
-
-                    if (!capitalizeEvery) {
-                        return string;
+                    if (Character.isLetter(ch)) {
+                        letterIndex = i;
+                        break;
                     }
                 }
+
+                if (letterIndex == -1) {
+                    return string; // No letters
+                }
+            } else {
+                letterIndex = 0;
+            }
+
+            char[] charArray = string.toCharArray();
+            charArray[letterIndex] = Character.toUpperCase(charArray[letterIndex]);
+            return new String(charArray);
+        }
+
+        // Every letter
+        StringBuilder sb = new StringBuilder();
+        boolean capitalizeNext = true;
+
+        for (int i = 0; i < string.length(); i++) {
+            char ch = string.charAt(i);
+
+            if (Character.isWhitespace(ch)) {
+                sb.append(ch);
+                capitalizeNext = true;
+                continue;
+            }
+
+            if (capitalizeNext && Character.isLetter(ch)) {
+                sb.append(Character.toUpperCase(ch));
+                capitalizeNext = false;
+                continue;
+            }
+
+            sb.append(ch);
+
+            if (!skipNonAlphabeticCharacters) {
+                capitalizeNext = false;
             }
         }
 
-        return string;
+        return sb.toString();
     }
 
     /**
-     * Capitalizes first letter in specified string<br>
-     * This method is calling {@link #capitalizeString(String, boolean, boolean, boolean)} with values true, false, true
-     * @param string String to capitalize letter in
+     * Invokes {@link #capitalizeString(String, StringCapitalizeStrategy, boolean)} with specified values and <code>true</code>
+     *
+     * @param string                   String to capitalize letters in
+     * @param stringCapitalizeStrategy String capitalize strategy
+     *
      * @return Capitalized string
      */
-    public static String prettyStringFirstLetter(@NonNull String string) {
-        return capitalizeString(string, true, false, true);
-    }
-
-    /**
-     * Capitalizes every letter after space in specified string<br>
-     * This method is calling {@link #capitalizeString(String, boolean, boolean, boolean)} with values true, true, true
-     * @param string String to capitalize letters in
-     * @return Capitalized string
-     */
-    public static String prettyStringEveryLetter(String string) {
-        return capitalizeString(string, true, true, true);
+    public static String capitalizeString(@NonNull String string, @NonNull StringCapitalizeStrategy stringCapitalizeStrategy) {
+        return capitalizeString(string, stringCapitalizeStrategy, true);
     }
 
     /**
      * Checks if string starts with any specified prefix in an array
-     * @param string String to check prefixes for
+     *
+     * @param string   String to check prefixes for
      * @param prefixes Array of strings
+     *
      * @return True if string starts with any specified string in an array
      */
-    public static boolean startsWithAny(String string, String[] prefixes) {
+    public static boolean startsWithAny(@NonNull String string, @NonNull String[] prefixes) {
         for (String prefix : prefixes) {
             if (string.startsWith(prefix)) {
                 return true;
@@ -87,12 +113,14 @@ public class StringUtils {
 
     /**
      * Replaces any string specified in an array by specified replacement
-     * @param string String to process
-     * @param regexes Array of strings to look for
+     *
+     * @param string      String to process
+     * @param regexes     Array of strings to look for
      * @param replacement Replacement
+     *
      * @return String with replaced all specified regexes
      */
-    public static String replaceAny(String string, String[] regexes, String replacement) {
+    public static String replaceAny(@NonNull String string, @NonNull String[] regexes, @NonNull String replacement) {
         for (String regex : regexes) {
             string = string.replaceAll(regex, replacement);
         }
@@ -101,15 +129,25 @@ public class StringUtils {
     }
 
     /**
-     * Sets character in specified index in a string
-     * @param string String
-     * @param character Character to set
-     * @param index Index position in a string
-     * @return String with replaced character at specified index
+     * Counts the number of occurrences of one String in another.
+     *
+     * @param string    The string to search in.
+     * @param subString The string to search for.
+     *
+     * @return The number of occurrences of {@code subString} in {@code string}.
      */
-    public static String setCharacter(String string, char character, int index) {
-        char[] chars = string.toCharArray();
-        chars[index] = character;
-        return String.valueOf(chars);
+    public static int countMatches(@NonNull String string, @NonNull String subString) {
+        if (string.isEmpty() || subString.isEmpty()) {
+            return 0;
+        }
+
+        int count = 0;
+        int idx = 0;
+        while ((idx = string.indexOf(subString, idx)) != -1) {
+            count++;
+            idx += subString.length();
+        }
+
+        return count;
     }
 }

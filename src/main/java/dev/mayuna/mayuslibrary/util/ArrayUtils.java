@@ -1,23 +1,34 @@
 package dev.mayuna.mayuslibrary.util;
 
-public class ArrayUtils {
+/**
+ * Some array utils
+ */
+public final class ArrayUtils {
+
+    private ArrayUtils() {
+    }
 
     /**
      * Gets last element from array.
+     *
      * @param array Array
+     *
      * @return Returns null if supplied array is null or is empty. Otherwise, returns last element from array.
      */
     public static Object getLast(Object[] array) {
-        if (array == null || array.length == 0)
+        if (array == null || array.length == 0) {
             return null;
+        }
 
         return array[array.length - 1];
     }
 
     /**
      * Checks whenever the supplied object is the last object in supplied array
+     *
      * @param object Object
-     * @param array Array
+     * @param array  Array
+     *
      * @return True if supplied object is last in supplied array, false otherwise; false can be also returned if the array is null or empty
      */
     public static boolean isLast(Object object, Object[] array) {
@@ -41,28 +52,34 @@ public class ArrayUtils {
      * 2,<br>
      * 3,<br>
      * 4<br>
-     * @param array Array
+     *
+     * @param array     Array
      * @param delimiter Delimiter which will be inserted at the end of line
+     *
      * @return Returns empty string if supplied array is null or empty. Otherwise, returns string in said format.
      */
     public static String formatVerticalList(Object[] array, String delimiter) {
-        if (array == null || array.length == 0)
+        if (array == null || array.length == 0) {
             return "";
-
-        String string = "";
-
-        for (Object object : array) {
-            string += object.toString() + delimiter + "\n";
         }
 
-        return string;
+        StringBuilder string = new StringBuilder();
+
+        for (Object object : array) {
+            string.append(object.toString()).append(delimiter).append("\n");
+        }
+
+        return string.toString();
     }
 
     /**
      * Formats array into vertical list with empty delimiter
-     * @see #formatVerticalList(Object[], String) #formatVerticalList(Object[], String) for more infomation
+     *
      * @param array Array
+     *
      * @return Returns empty string if supplied array is null or empty. Otherwise, returns string in said format.
+     *
+     * @see #formatVerticalList(Object[], String) #formatVerticalList(Object[], String) for more infomation
      */
     public static String formatVerticalList(Object[] array) {
         return formatVerticalList(array, "");

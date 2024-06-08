@@ -1,94 +1,142 @@
 plugins {
     id 'java'
-    id 'io.codearte.nexus-staging' version '0.11.0'
+    id 'java-library'
+    id 'signing'
+    id 'maven-publish'
+    id "com.github.johnrengelman.shadow" version "8.1.1"
+    id "io.github.gradle-nexus.publish-plugin" version "1.1.0"
+    id 'jacoco'
+    id 'jacoco-report-aggregation'
 }
 
-apply plugin: 'maven'
-apply plugin: 'maven-publish'
-apply plugin: 'signing'
-
-group 'dev.mayuna'
-archivesBaseName = 'mayus-library'
-version '2.0.1'
+group = 'dev.mayuna'
+version = '3.0'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.22'
-    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    // Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.+'
+    annotationProcessor 'org.projectlombok:lombok:1.18.+'
+    testCompileOnly 'org.projectlombok:lombok:1.18.+'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.+'
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
-task compile(type: Jar) {
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
+// Java 8
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
 }
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+tasks.jacocoTestReport {
+    reports {
+        csv.required = true
+    }
+}
 
-            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
+// == Quick tasks == //
 
-            snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
+task publishCloseAndRelease() {
+    dependsOn 'publishToSonatype'
+    dependsOn 'closeAndReleaseSonatypeStagingRepository'
+}
 
-            pom.project {
-                name 'mayus-library'
-                packaging 'jar'
-                // optionally artifactId can be defined here
-                description 'Generic Java Library with Logger and other things which I use in my projects'
-                url 'https://mayuna.dev/'
+shadowJar {
+
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+// == Maven publishing == //
+
+publishing {
+
+    publications {
+        shadow(MavenPublication) {
+            groupId = 'dev.mayuna'
+            artifactId = 'mayus-library'
+            version = getVersion()
+            from components.java
+
+            pom {
+                name = 'mayus-library'
+                description = 'Generic Java Library with Logger and other things which I use in my projects'
+                url = 'https://github.com/lilmayu/MayusLibrary'
 
                 scm {
-                    connection 'scm:https://github.com/lilmayu/MayusLibrary'
-                    developerConnection 'scm:git:https://github.com/lilmayu/MayusLibrary.git'
-                    url 'https://github.com/lilmayu/MayusLibrary'
+                    connection = 'scm:https://github.com/lilmayu/MayusLibrary'
+                    developerConnection = 'scm:git:https://github.com/lilmayu/MayusLibrary.git'
+                    url = 'https://github.com/lilmayu/MayusLibrary'
                 }
 
                 licenses {
                     license {
-                        name 'GNU Lesser General Public License v3.0'
-                        url 'https://www.gnu.org/licenses/lgpl-3.0.en.html'
+                        name = 'MIT License'
+                        url = 'https://opensource.org/license/MIT'
                     }
                 }
 
                 developers {
                     developer {
-                        id 'mayuna'
-                        name 'Marek Lof'
-                        email 'uwulilmayu@gmail.com'
+                        id = 'mayuna'
+                        name = 'Marek Lof'
+                        email = 'uwulilmayu@gmail.com'
                     }
                 }
             }
         }
     }
-}
 
-nexusStaging {
-    packageGroup = "dev.mayuna" //optional if packageGroup == project.getGroup()
-}
+    publishing {
+        repositories {
+            maven {
+                credentials {
+                    username = project.properties['ossrhUsername'] ?: System.getenv('ossrhUsername')
+                    password = project.properties['ossrhPassword'] ?: System.getenv('ossrhPassword')
+                }
 
-
-task javadocJar(type: Jar) {
-    classifier = 'javadoc'
-    from javadoc
-}
-
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-artifacts {
-    archives javadocJar, sourcesJar
+                url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            }
+        }
+    }
 }
 
 signing {
-    sign configurations.archives
+    def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    useInMemoryPgpKeys(signingKey, signingPassword)
+    sign publishing.publications.shadow
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+            username = project.properties['ossrhUsername'] ?: System.getenv('ossrhUsername')
+            password = project.properties['ossrhPassword'] ?: System.getenv('ossrhPassword')
+        }
+    }
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+shadowJar.dependsOn javadocJar
+shadowJar.dependsOn sourcesJar
+shadowJar.dependsOn jar
+
+components.java.withVariantsFromConfiguration(configurations.shadowRuntimeElements) {
+    skip()
 }

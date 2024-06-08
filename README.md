@@ -1,44 +1,48 @@
-<p align="center">
-  <h1 align="center">Mayu's Library</h1>
-</p>
-<p align="center">
-  <img src="http://ForTheBadge.com/images/badges/made-with-java.svg" alt="Made with Java">
-  <br>
-  <img src="https://www.code-inspector.com/project/29505/status/svg" alt="Code Grade">
-  <img src="https://img.shields.io/github/license/lilmayu/MayusLibrary.svg" alt="License">
-  <img src="https://img.shields.io/github/v/release/lilmayu/MayusLibrary.svg" alt="Version">
-</p>
-<p align="center">
-    Generic Java Library with Logger and other things which I use in my projects
-</p>
+# Mayu's Library
 
-## Information
-- Author: [Mayuna](https://mayuna.dev)
-- Download: [GitHub Releases](https://github.com/lilmayu/MayusLibrary/releases)
+Generic Java Library with Logger and other things which I use in my projects
+
+> [!IMPORTANT]  
+> As of 3.0, the library is now under MIT license. All previous versions are under LGPL 3.0.
+
+## Contents
+
+- [Features](#features)
+- [Installation](#installation)
+    - [Gradle](#gradle)
+    - [Maven](#maven)
+- [Documentation](#documentation)
+
+## Features
+
+TBA
 
 ## Installation
-### Maven
-```xml
-<dependency>
-    <groupId>dev.mayuna</groupId>
-    <artifactId>mayus-library</artifactId>
-    <version>VERSION</version>
-</dependency>
-```
+- Java >= 8
+
 ### Gradle
-```gradle
+
+```groovy
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    // Change 'implementation' to 'compile' in old Gradle versions
-    implementation 'dev.mayuna:mayus-library:VERSION'
+    implementation 'dev.mayuna:mayus-library:3.0'
 }
 ```
-- Replace `VERSION` with your desired version. TIP: Remove "v" before version number
-- For version number see latest [Maven Repository](https://mvnrepository.com/artifact/dev.mayuna/mayus-library) release (should be same with Github Release though)
-- You can also use [GitHub Releases](https://github.com/lilmayu/MayusLibrary/releases)
+
+### Maven
+
+```xml
+<dependency>
+    <groupId>dev.mayuna</groupId>
+    <artifactId>mayus-library</artifactId>
+    <version>3.0</version>
+</dependency>
+```
+
+**You can find the latest version [here](https://mvnrepository.com/artifact/dev.mayuna/mayus-library).**
 
 ## Documentation
 - Soon:tm:
