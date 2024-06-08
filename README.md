@@ -1,6 +1,6 @@
 # Mayu's Library
 
-Generic Java Library with Logger and other things which I use in my projects
+Generic Java Library with Logger and other things that I use in my projects
 
 > [!IMPORTANT]  
 > As of 3.0, the library is now under MIT license. All previous versions are under LGPL 3.0.
@@ -15,7 +15,11 @@ Generic Java Library with Logger and other things which I use in my projects
 
 ## Features
 
-TBA
+- ArrayUtils
+- NumberUtils
+- StackUtils
+- StringUtils
+- Uncaught Exception Reporting
 
 ## Installation
 - Java >= 8
