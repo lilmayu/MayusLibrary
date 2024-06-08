@@ -9,19 +9,20 @@ public final class ArrayUtils {
     }
 
     /**
-     * Gets last element from array.
+     * Gets last element from an array.
      *
      * @param array Array
      *
      * @return Returns null if supplied array is null or is empty. Otherwise, returns last element from array.
      */
-    public static Object getLast(Object[] array) {
+    public static <T> T getLast(T[] array) {
         if (array == null || array.length == 0) {
             return null;
         }
 
         return array[array.length - 1];
     }
+
 
     /**
      * Checks whenever the supplied object is the last object in supplied array
@@ -31,57 +32,13 @@ public final class ArrayUtils {
      *
      * @return True if supplied object is last in supplied array, false otherwise; false can be also returned if the array is null or empty
      */
-    public static boolean isLast(Object object, Object[] array) {
-        Object lastObject = getLast(array);
+    public static <T> boolean isLast(T object, T[] array) {
+        T lastObject = getLast(array);
 
         if (lastObject == null) {
             return false;
         }
 
         return lastObject.equals(object);
-    }
-
-    /**
-     * Formats array into vertical list with specified delimiter <br>
-     * Example:<br>
-     * Supplied array: [0, 1, 2, 3, 4]<br>
-     * Supplied delimiter: ","<br>
-     * Returned String:<br>
-     * 0,<br>
-     * 1,<br>
-     * 2,<br>
-     * 3,<br>
-     * 4<br>
-     *
-     * @param array     Array
-     * @param delimiter Delimiter which will be inserted at the end of line
-     *
-     * @return Returns empty string if supplied array is null or empty. Otherwise, returns string in said format.
-     */
-    public static String formatVerticalList(Object[] array, String delimiter) {
-        if (array == null || array.length == 0) {
-            return "";
-        }
-
-        StringBuilder string = new StringBuilder();
-
-        for (Object object : array) {
-            string.append(object.toString()).append(delimiter).append("\n");
-        }
-
-        return string.toString();
-    }
-
-    /**
-     * Formats array into vertical list with empty delimiter
-     *
-     * @param array Array
-     *
-     * @return Returns empty string if supplied array is null or empty. Otherwise, returns string in said format.
-     *
-     * @see #formatVerticalList(Object[], String) #formatVerticalList(Object[], String) for more infomation
-     */
-    public static String formatVerticalList(Object[] array) {
-        return formatVerticalList(array, "");
     }
 }
